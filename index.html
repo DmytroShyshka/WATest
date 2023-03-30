@@ -82,11 +82,15 @@
         <span class="dislike-button" onclick="dislikeJoke()">Dislike</span>
     </div>
 
-    <div>
-        <span class="show-liked-jokes">Liked Jokes</span>
-        <span class="show-disliked-jokes">Disliked Jokes</span>
+    <div class="liked-jokes">
+        <button class="show-liked-jokes">Liked Jokes</button>
+        <ul></ul>
     </div>
-    <ul class="like-jokes"></ul>
+    
+    <div class="disliked-jokes">
+        <button class="show-disliked-jokes">Disliked Jokes</button>
+        <ul></ul>
+    </div>
 
     <script>
         var currentJoke = null;
