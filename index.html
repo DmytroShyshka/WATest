@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Jokes</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        #joke {
+            font-size: 24px;
+            margin-top: 32px;
+        }
+
+        .like-button, .dislike-button {
+            font-size: 24px;
+            margin-top: 16px;
+            cursor: pointer;
+
+        }
+
+        .like-button:hover, .dislike-button:hover{
+           text-decoration: underline;
+        }
+
+        
+       
+        .like-button {
+            color: green;
+        }
+
+        .dislike-button {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Jokes</h1>
+    <button onclick="GetJoke()"> Generate Joke</button>
+    <p id="joke"></p>
+    <div>
+        <span class="like-button" onclick="likeJoke()">Like</span>
+        <span class="dislike-button" onclick="dislikeJoke()">Dislike</span>
+    </div>
+    <ul class="like-jokes"></ul>
+
+    <script>
+        var currentJoke = null;
+        var likedJokes = [];
+        var dislikedJokes = [];
+
+        function GetJoke() {
+            $.ajax({
+                url: "https://v2.jokeapi.dev/joke/Any",
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    var joke = response;
+                        if(joke.type === "single") {
+                          $('#joke').text(joke.joke);
+                        } 
+                        else if (joke.type === "twopart"){
+                        $('#joke').text(joke.setup + " " + joke.delivery);
+                        }   
+                    },
+
+                error: function() {
+                    alert('Error retrieving joke. Please try again later.')
+                }
+            });
+        }
+
+        function likeJoke(button) {
+            if(currentJoke != null) {
+                console.log('Liked joke: ', currentJoke);
+                $(button).animate({fontSize: '36px'}, 500, function() {
+                    $(this).animate({fontSize: '24px'}, 500);
+                });
+                likedJokes.push(currentJoke);
+                updateLikedJokes();
+            }
+        }
+
+        function dislikeJoke(button) {
+            if(currentJoke != null) {
+                console.log('Disliked joke: ', currentJoke);
+                $(button).animate({fontSize: '36px'}, 500, function() {
+                    $(this).animate({fontSize: '24px'}, 500);
+                });
+                dislikedJokes.push(currentJoke);
+                updateDislikedJokes();
+            }
+        }
+
+        function updateLikedJokes() {
+           var likedJokesList = $('.like-jokes');
+              likedJokesList.empty();
+              for(var i = 0; i < likedJokes.length; i++) {
+                  var joke = likedJokes[i];
+                  var jokeText = '';
+                  if (joke.type === 'single') {
+                      jokeText = joke.joke;
+                  } else if (joke.type === 'twopart') {
+                      jokeText = joke.setup + ' ' + joke.delivery;
+                  }
+              }
+        }
+
+        function updateDislikedJokes() {
+            var dislikedJokesList = $('.dislike-jokes');
+            dislikedJokesList.empty();
+            for(var i = 0; i < dislikedJokes.length; i++) {
+                var joke = dislikedJokes[i];
+                var jokeText = '';
+                if (joke.type === 'single') {
+                    jokeText = joke.joke;
+                } else if (joke.type === 'twopart') {
+                    jokeText = joke.setup + ' ' + joke.delivery;
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
