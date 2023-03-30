@@ -168,13 +168,13 @@
             }
         }
 
-        $(document).ready(function() {
-            GetJoke();
+    $(document).ready(function() {
+        GetJoke();
 
-            $('#new-joke').click(function() {
-                GetJoke();
-            })    
-        }) 
+        $('#new-joke').click(function() {
+            GetJoke();
+         })    
+        
 
         $('.like-button').click(function() {
             likeJoke(this);
@@ -191,8 +191,8 @@
         $('.show-disliked-jokes').click(function() {
             $('.dislike-jokes').toggle();
         });
-        
 
+    }); 
     </script>
 </body>
 </html>
