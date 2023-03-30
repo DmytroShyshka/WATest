@@ -17,7 +17,7 @@
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #f58607;
             border: none;
             color: white;
             padding: 16px 32px;
@@ -55,6 +55,22 @@
         .dislike-button {
             color: red;
         }
+
+        .liked-jokes {
+            margin-top: 32px;
+        }
+
+        .liked-jokes li {
+            font-size: 24px;
+            list-style: none;
+            margin-bottom: 8px;
+        }
+
+        .show-liked-jokes, .show-disliked-jokes {
+            font-size: 24px;
+            margin-top: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +80,11 @@
     <div>
         <span class="like-button" onclick="likeJoke()">Like</span>
         <span class="dislike-button" onclick="dislikeJoke()">Dislike</span>
+    </div>
+
+    <div>
+        <span class="show-liked-jokes">Liked Jokes</span>
+        <span class="show-disliked-jokes">Disliked Jokes</span>
     </div>
     <ul class="like-jokes"></ul>
 
@@ -126,6 +147,8 @@
                   } else if (joke.type === 'twopart') {
                       jokeText = joke.setup + ' ' + joke.delivery;
                   }
+                  var jokeItem = $('<li>').text(jokeText);
+                    likedJokesList.append(jokeItem);
               }
         }
 
@@ -140,8 +163,35 @@
                 } else if (joke.type === 'twopart') {
                     jokeText = joke.setup + ' ' + joke.delivery;
                 }
+                var jokeItem = $('<li>').text(jokeText);
+                    dislikedJokesList.append(jokeItem);
             }
         }
+
+        $(document).ready(function() {
+            GetJoke();
+
+            $('#new-joke').click(function() {
+                GetJoke();
+            })    
+        }) 
+
+        $('.like-button').click(function() {
+            likeJoke(this);
+        });
+
+        $('.dislike-button').click(function() {
+            dislikeJoke(this);
+        });
+
+        $('.show-liked-jokes').click(function() {
+            $('.like-jokes').toggle();
+        });
+
+        $('.show-disliked-jokes').click(function() {
+            $('.dislike-jokes').toggle();
+        });
+        
 
     </script>
 </body>
